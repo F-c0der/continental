@@ -6,12 +6,13 @@ const LS_KEY = "continental_state_v1";
 let state = {
   players: [],
   rounds: [
-    { name: "R1: Trío + Escalera", cards: 7 },
-    { name: "R2: Dos Tríos", cards: 8 },
+    { name: "R1: Dos Tríos", cards: 7 },
+    { name: "R2: Trío + Escalera", cards: 8 },
     { name: "R3: Dos Escaleras", cards: 9 },
-    { name: "R4: Trío + Trío + Escalera", cards: 10 },
-    { name: "R5: Escalera de 7", cards: 11 },
-    { name: "R6: Libre / Final", cards: 12 },
+    { name: "R4: Tres Tríos", cards: 10 },
+    { name: "R5: Dos Tríos + Escalera", cards: 11 },
+    { name: "R6: Trío + Dos Escaleras", cards: 12 },
+    { name: "R7: Tres Escaleras", cards: 13 },
   ],
   scores: [],          // [round][player] -> int
   currentRound: 0
