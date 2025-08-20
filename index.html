@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0f766e" />
+  <title>Continental · Marcador</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="title">
+      <span id="roundTitle">Ronda</span>
+      <small id="roundCards"></small>
+    </div>
+    <div class="actions">
+      <button id="btnSaveRound" class="btn primary">Guardar ronda</button>
+      <button id="btnConfig" class="btn">⚙️</button>
+      <button id="btnNew" class="btn danger">Nueva partida</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Añadir jugadores</h2>
+      <div class="row">
+        <input id="playerName" type="text" placeholder="Nombre del jugador">
+        <button id="btnAdd" class="btn">➕ Añadir</button>
+      </div>
+      <div id="playersList" class="players"></div>
+    </section>
+
+    <section class="card">
+      <h2>Ronda actual</h2>
+      <div id="currentRoundEditor"></div>
+    </section>
+
+    <section class="card">
+      <details>
+        <summary>✍️ Editar rondas anteriores</summary>
+        <div id="pastRoundsEditor"></div>
+      </details>
+    </section>
+
+    <section class="card">
+      <h2>Resumen por rondas</h2>
+      <div id="summary"></div>
+    </section>
+
+    <section class="card">
+      <h2>Clasificación</h2>
+      <div id="ranking"></div>
+    </section>
+  </main>
+
+  <!-- Config modal -->
+  <dialog id="configDlg">
+    <form method="dialog" class="dialog">
+      <h3>Configuración de rondas</h3>
+      <label>Una por línea, formato: <code>Nombre | Cartas</code></label>
+      <textarea id="roundsText" rows="10"></textarea>
+      <div class="row end">
+        <button id="btnExport" class="btn">💾 Exportar</button>
+        <label class="btn">
+          📥 Importar <input id="importFile" type="file" accept="application/json" hidden>
+        </label>
+        <button value="cancel" class="btn">Cancelar</button>
+        <button id="btnSaveRounds" value="ok" class="btn primary">Guardar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js');
+      });
+    }
+  </script>
+</body>
+</html>
