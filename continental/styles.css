@@ -1,6 +1,7 @@
 :root {
   --bg: #0b0c10;
   --card: #121418;
+  --card-soft: #171a21;
   --muted: #cbd5e1;
   --text: #e5e7eb;
   --accent: #0ea5a6;
@@ -28,6 +29,14 @@ input[type="number"] { text-align:center; }
 .btn:disabled { opacity:.6; cursor:not-allowed; }
 .players .player { display:flex; gap:8px; align-items:center; padding:8px; border:1px dashed var(--border); border-radius:10px; margin:6px 0; }
 .players .name { font-weight:700; }
+.save-row { margin-bottom:10px; }
+.saved-game { display:grid; grid-template-columns: 1fr auto; gap:10px; align-items:center; background:var(--card-soft); border:1px solid var(--border); border-radius:8px; padding:10px; margin:8px 0; }
+.saved-game strong { display:block; margin-bottom:3px; }
+.saved-game small, .stat-muted { color:var(--muted); }
+.saved-game .actions { justify-content:flex-end; flex-wrap:wrap; }
+.stat-grid { display:grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap:8px; margin:12px 0; }
+.stat-box { background:var(--card-soft); border:1px solid var(--border); border-radius:8px; padding:10px; }
+.stat-box strong { display:block; font-size:22px; line-height:1.1; }
 .table { overflow:auto; }
 table { width:100%; border-collapse: collapse; }
 th, td { border:1px solid var(--border); padding:8px 6px; text-align:center; }
@@ -38,4 +47,9 @@ dialog::backdrop { background: rgba(0,0,0,.5); }
 @media (max-width: 680px) {
   .actions { flex-wrap:wrap; }
   .container { margin-top: 120px; }
+  .row { align-items:stretch; flex-direction:column; }
+  .saved-game { grid-template-columns: 1fr; }
+  .saved-game .actions { justify-content:stretch; }
+  .saved-game .actions .btn { width:100%; }
+  .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
