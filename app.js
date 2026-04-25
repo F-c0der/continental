@@ -2,18 +2,27 @@
 const $ = (q) => document.querySelector(q);
 const $$ = (q) => Array.from(document.querySelectorAll(q));
 const LS_KEY = "continental_state_v1";
+const DEFAULT_ROUNDS = [
+  { name: "R1: Dos Tríos", cards: 7 },
+  { name: "R2: Trío + Escalera", cards: 8 },
+  { name: "R3: Dos Escaleras", cards: 9 },
+  { name: "R4: Dos Tríos + Escalera", cards: 11 },
+  { name: "R5: Trío + Dos Escaleras", cards: 12 },
+  { name: "R6: Tres Escaleras (Continental)", cards: 13 },
+];
+const LEGACY_DEFAULT_ROUNDS = [
+  "R1: Dos Tríos|7",
+  "R2: Trío + Escalera|8",
+  "R3: Dos Escaleras|9",
+  "R4: Tres Tríos|10",
+  "R5: Dos Tríos + Escalera|11",
+  "R6: Trío + Dos Escaleras|12",
+  "R7: Tres Escaleras|13",
+];
 
 let state = {
   players: [],
-  rounds: [
-    { name: "R1: Dos Tríos", cards: 7 },
-    { name: "R2: Trío + Escalera", cards: 8 },
-    { name: "R3: Dos Escaleras", cards: 9 },
-    { name: "R4: Tres Tríos", cards: 10 },
-    { name: "R5: Dos Tríos + Escalera", cards: 11 },
-    { name: "R6: Trío + Dos Escaleras", cards: 12 },
-    { name: "R7: Tres Escaleras", cards: 13 },
-  ],
+  rounds: DEFAULT_ROUNDS.map(round => ({...round})),
   scores: [],          // [round][player] -> int
   currentRound: 0
 };
@@ -22,7 +31,32 @@ function save() { localStorage.setItem(LS_KEY, JSON.stringify(state)); }
 function load() {
   const s = localStorage.getItem(LS_KEY);
   if (s) { state = JSON.parse(s); }
+  migrateLegacyRounds();
   ensureShape();
+}
+function roundKey(round) {
+  return `${round.name}|${Number(round.cards || 0)}`;
+}
+function isLegacyDefaultRounds(rounds) {
+  return Array.isArray(rounds)
+    && rounds.length === LEGACY_DEFAULT_ROUNDS.length
+    && rounds.every((round, index) => roundKey(round) === LEGACY_DEFAULT_ROUNDS[index]);
+}
+function migrateLegacyRounds() {
+  if (!isLegacyDefaultRounds(state.rounds)) return;
+
+  state.rounds = DEFAULT_ROUNDS.map(round => ({...round}));
+  if (Array.isArray(state.scores) && state.scores.length === LEGACY_DEFAULT_ROUNDS.length) {
+    state.scores = [
+      state.scores[0],
+      state.scores[1],
+      state.scores[2],
+      state.scores[4],
+      state.scores[5],
+      state.scores[6],
+    ];
+  }
+  if (state.currentRound > 3) state.currentRound -= 1;
 }
 function ensureShape() {
   const r = state.rounds.length, p = state.players.length;
